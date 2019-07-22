@@ -45,16 +45,15 @@ void delete_folder(string full_path){
         cout << "Directory deleted" << endl; 
 }
 
-int list_folder(string full_path, vector<string> &files){
+int list_folder(string full_path){
 	DIR *dp;
     struct dirent *dirp;
-    if((dp  = opendir(full_path.c_str())) == NULL) {
+    if((dp = opendir(full_path.c_str())) == NULL) {
         cout << "Error(" << errno << ") opening " << full_path << endl;
         return errno;
     }
 
     while ((dirp = readdir(dp)) != NULL) {
-        //files.push_back(string(dirp->d_name));
         cout << dirp->d_name << endl;
     }
     closedir(dp);
@@ -67,13 +66,11 @@ int main(){
 	string full_path;
 	bool active = true;
 	vector<string> *tokens;
-	vector<string> *files;
 	int command_code = -1;
 
 	while(active){
 
 		tokens = new vector<string>(0);
-		files = new vector<string>();
 
 		cout << "P> ";
 		getline(cin, command);
@@ -105,7 +102,7 @@ int main(){
 			case 3:
 				cout << "List Folder" << endl;
 				//cout << tokens->at(1) << endl;
-				list_folder(tokens->at(1), *files);
+				list_folder(tokens->at(1));
 				break;
 
 			default:
